@@ -6,6 +6,6 @@ PNG(currently in developement)
 The information there will be added when I move on to another type.
 The final goal here is to be able to make an ascii representation of an image. It may change over time
 
-To build the project: 
+To build and run the project: 
 1. Run "make" in the root dir of the project
 2. launch "bin" from the command line. "bin -f path/to/your/file/filename.*"
