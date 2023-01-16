@@ -9,25 +9,26 @@ class Image {
 		virtual void dropPrefix() = 0;
 		virtual void rgbArray() = 0;
 		virtual ~Image() = default;
-		virtual std::vector<short> get_data() const = 0;
+		virtual std::vector<short> getData() const = 0;
+		//virtual int& getDimensions() const = 0;
 };
 
 class PNGImage : public Image{
-		std::vector<short> data, rgb_array;
-		std::vector<PNGChunk> chunks;
-		size_t file_len;
-		long long int chunks_count{ 0 };
-		bool chunked{ false };
-		int *dimensions = new int[2];
+		std::vector<short> m_data, m_rgb_array;
+		std::vector<PNGChunk> m_chunks;
+		size_t m_file_len;
+		long long int m_chunks_count{ 0 };
+		bool m_chunked{ false };
+		int *m_dimensions = new int[2];
 		void dropPrefix() override;
 
 	public:
-		PNGImage(std::vector<short>& data);
+		PNGImage(std::vector<short>& m_data);
 		void rgbArray() override;
-		std::vector<short> get_data() const override{ return data; }
+		std::vector<short> getData() const override{ return m_data; }
 		void chunksCreate();
 		void dropAncillary();
 		void unpackChunks();
-		int& get_dimensions() const;	
+		//int& getDimensions() const override;	
 };
 

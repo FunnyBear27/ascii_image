@@ -3,55 +3,53 @@
 #include <iostream>
 
 
-PNGImage::PNGImage(std::vector<short>& data) : data { data }, file_len {data.size()}{ dropPrefix(); }
+PNGImage::PNGImage(std::vector<short>& data) : m_data { data }, m_file_len {data.size()}{ dropPrefix(); }
 
 void PNGImage::dropPrefix() {
 	short swap = 0;
-	for (unsigned long int i = 0; i < file_len / 2; i++){
-		swap = data[i];
-		data[i] = data[file_len - 1 - i];
-		data[file_len - 1 - i] = swap;
+	for (unsigned long int i = 0; i < m_file_len / 2; i++){
+		swap = m_data[i];
+		m_data[i] = m_data[m_file_len - 1 - i];
+		m_data[m_file_len - 1 - i] = swap;
 	}
 
-	std::vector<short> check_prefix{data.end() - 8, data.end()};
+	std::vector<short> check_prefix{m_data.end() - 8, m_data.end()};
 	if (check_prefix != PNGVERIFYPREF) {
 		throw std::invalid_argument("File is damaged/modified/is not PNG");	
 	}
 	for (int i = 0; i < 8; i++){
-		// std::cout << data[file_len - 1 - i] << "\n";
-		data.pop_back();
+		m_data.pop_back();
 	}
-	// print(*this);
-	file_len -= 8;
+	m_file_len -= 8;
 }
 
 void PNGImage::chunksCreate() {	
 	unsigned long int chunk_length{ 0 };
 
-	while (data.size() >= 12){ // INF?
-		PNGChunk ch(data);
-		chunks.push_back(ch);
-		chunks_count++;
+	while (m_data.size() >= 12){ 
+		PNGChunk ch(m_data);
+		m_chunks.push_back(ch);
+		m_chunks_count++;
 		chunk_length = ch.getChunkLen();
 		for(unsigned long i = 0; i < chunk_length; i++){
-			data.pop_back();
+			m_data.pop_back();
 		}
 	}
-	chunked = true;
+	m_chunked = true;
 }
 
 
 void PNGImage::dropAncillary(){
-	std::vector<PNGChunk>::iterator p_ch_begin = chunks.begin();
+	std::vector<PNGChunk>::iterator p_ch_begin = m_chunks.begin();
 	int i { 0 };
 	while (true){
-		if (!chunks[i].getCritical()){
-			chunks.erase(p_ch_begin + i);
-			chunks_count -= 1;
+		if (!m_chunks[i].getCritical()){
+			m_chunks.erase(p_ch_begin + i);
+			m_chunks_count -= 1;
 		}
 		else {
 			i += 1;
-			if (chunks_count == i){
+			if (m_chunks_count == i){
 				break;
 			}
 		}
@@ -60,8 +58,8 @@ void PNGImage::dropAncillary(){
 
 
 void PNGImage::unpackChunks() {
-	for (int i = 0; i < chunks_count; i++){
-		PNGChunk *cur_chunk = &chunks[i];
+	for (int i = 0; i < m_chunks_count; i++){
+		PNGChunk *cur_chunk = &m_chunks[i];
 		std::string type = cur_chunk->getType();
 		if (type == "IHDR"){
 			
@@ -73,4 +71,3 @@ void PNGImage::unpackChunks() {
 void PNGImage::rgbArray() {
 	std::cout << "rgbArray" << std::endl;
 }
-

@@ -7,7 +7,6 @@ PNGChunk::PNGChunk(const std::vector<short>& input) : m_initial_length {input.si
 
 unsigned long int PNGChunk::chunkCreate(const std::vector<short>& input){
 	std::vector<short> length_bytes{ input.end() - 4, input.end() };
-	// std::cout << "---------------------" << std::endl;
 	for (short i = 0; i < 4; i++){
 		m_chunk_type.push_back(input[m_initial_length - 5 - i]);
 	}

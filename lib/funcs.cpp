@@ -37,7 +37,7 @@ void read_image(std::string file_name, std::vector<short> &data) {
 }
 
 void print(const Image& img){
-	const std::vector<short>& data {img.get_data()};
+	const std::vector<short>& data {img.getData()};
 	for (short el: data) {
 		if (el < 16){
 			std::cout << 0;
