@@ -62,8 +62,20 @@ void PNGImage::unpackChunks() {
 		PNGChunk *cur_chunk = &m_chunks[i];
 		std::string type = cur_chunk->getType();
 		if (type == "IHDR"){
-			
-		}	
+			const std::vector<short>& IHDR_vect = cur_chunk->getData();			
+			for (short i = 0; i < 4; i++){
+				m_width += IHDR_vect[3 - i] * pow(256, i);	
+				m_height += IHDR_vect[7 - i] * pow(256, i);
+			}	
+
+			m_bit_depth = IHDR_vect[8];
+			m_color_type = IHDR_vect[9];
+			m_compression_method = IHDR_vect[10];
+			m_filter_method = IHDR_vect[11];
+			m_interlace_method = IHDR_vect[12];
+			std::cout << m_height << std::endl;
+		}
+
 	}
 }
 

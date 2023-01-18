@@ -19,7 +19,8 @@ class PNGImage : public Image{
 		size_t m_file_len;
 		long long int m_chunks_count{ 0 };
 		bool m_chunked{ false };
-		int *m_dimensions = new int[2];
+		int m_width{ 0 }, m_height{ 0 };
+		short m_bit_depth{ 0 }, m_color_type{ 0 }, m_compression_method{ 0 }, m_filter_method{ 0 }, m_interlace_method{ 0 };
 		void dropPrefix() override;
 
 	public:

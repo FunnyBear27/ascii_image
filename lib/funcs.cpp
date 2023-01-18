@@ -14,7 +14,6 @@ void print_vector(std::vector<short> a){
 			std::cout << "0";
 		std::cout << std::hex << i << " ";
 	}
-		std::cout << std::endl;
 }
 
 void png_process(std::string& file_name, std::vector<short>& data){
@@ -42,7 +41,7 @@ void print(const Image& img){
 		if (el < 16){
 			std::cout << 0;
 		}
-		std::cout << std::hex<< el << " ";
+		std::cout << std::hex << el << " ";
 	}
 }
 

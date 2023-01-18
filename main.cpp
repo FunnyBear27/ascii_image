@@ -22,6 +22,6 @@ int main(int argc, char** argv){
 	PNGImage img(initial_file);
 	img.chunksCreate();
 	img.dropAncillary();
-	//img.unpackChunks();
+	img.unpackChunks();
 	return 0;
 }
